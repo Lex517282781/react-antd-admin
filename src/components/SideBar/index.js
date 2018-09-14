@@ -20,8 +20,10 @@ class SideBar extends Component {
       if (nextMenu !== prevMenu) {
         const currentKeyItem = this.getCurrentKey(nextMenu.data, path);
 
+        console.log(currentKeyItem, 44);
+
         nextProps.sidebar_update({
-          openKeys: currentKeyItem.openKeys
+          openKeys: (currentKeyItem || {}).openKeys || []
         });
       }
     }
@@ -55,7 +57,7 @@ class SideBar extends Component {
   renderMenuItem = ({ text, icon, key }) => {
     return (
       <Menu.Item onClick={this.handleRouter} key={key}>
-        {<Icon type={icon} />}
+        {<Icon type={icon || ' '} />}
         <span>
           {text}
           {key}

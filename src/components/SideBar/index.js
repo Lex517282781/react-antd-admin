@@ -18,12 +18,10 @@ class SideBar extends Component {
     );
     if (nextMenu.data[0]) {
       if (nextMenu !== prevMenu) {
-        const currentKeyItem = this.getCurrentKey(nextMenu.data, path);
-
-        console.log(currentKeyItem, 44);
+        const currentKeyItem = this.getCurrentKey(nextMenu.data, path) || {};
 
         nextProps.sidebar_update({
-          openKeys: (currentKeyItem || {}).openKeys || []
+          openKeys: currentKeyItem.openKeys || []
         });
       }
     }

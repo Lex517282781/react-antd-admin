@@ -1,27 +1,21 @@
 import React, { Component } from 'react';
 import Routes from '@/routes';
-import { Layout, Icon } from 'antd';
+import { Layout } from 'antd';
 import { connect } from 'react-redux';
 import { actionCreators as commonActionCreators } from './store/common';
 import { actionCreators as sidebarActionCreators } from '@/components/SideBar/store';
 import SideBar from './components/SideBar';
+import HeadBar from './components/HeadBar';
 import './App.less';
 import styles from './App.less';
 
-const { Header, Sider, Content } = Layout;
+const { Sider, Content } = Layout;
 
 class App extends Component {
   componentDidMount() {
     const { menu_update } = this.props;
     menu_update();
   }
-
-  toggle = () => {
-    const { collapsed, sidebar_update } = this.props;
-    sidebar_update({
-      collapsed: !collapsed
-    });
-  };
 
   render() {
     const { collapsed } = this.props;
@@ -33,13 +27,7 @@ class App extends Component {
           <SideBar />
         </Sider>
         <Layout>
-          <Header style={{ background: '#fff', padding: 0 }}>
-            <Icon
-              className={styles.trigger}
-              type={collapsed ? 'menu-unfold' : 'menu-fold'}
-              onClick={this.toggle}
-            />
-          </Header>
+          <HeadBar />
           <Content
             style={{
               margin: '24px 16px',

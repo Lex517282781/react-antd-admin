@@ -6,14 +6,11 @@ import { actionCreators as commonActionCreators } from './store/common';
 import { actionCreators as sidebarActionCreators } from '@/components/SideBar/store';
 import SideBar from './components/SideBar';
 import './App.less';
+import styles from './App.less';
 
 const { Header, Sider, Content } = Layout;
 
 class App extends Component {
-  state = {
-    collapsed: false
-  };
-
   componentDidMount() {
     const { menu_update } = this.props;
     menu_update();
@@ -30,16 +27,16 @@ class App extends Component {
     const { collapsed } = this.props;
 
     return (
-      <Layout className="App">
+      <Layout className={styles.App}>
         <Sider trigger={null} collapsible collapsed={collapsed}>
-          <div className="logo" />
+          <div className={styles.logo} />
           <SideBar />
         </Sider>
         <Layout>
           <Header style={{ background: '#fff', padding: 0 }}>
             <Icon
-              className="trigger"
-              type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'}
+              className={styles.trigger}
+              type={collapsed ? 'menu-unfold' : 'menu-fold'}
               onClick={this.toggle}
             />
           </Header>

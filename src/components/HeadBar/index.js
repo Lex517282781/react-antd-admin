@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { actionCreators as headbarActionCreators } from './store';
 import { actionCreators as sidebarActionCreators } from '@/components/SideBar/store';
 import { Layout, Icon } from 'antd';
+import RightContent from './layouts/RightContent';
 import styles from './style.less';
 
 const { Header } = Layout;
@@ -20,12 +21,13 @@ class HeadBar extends Component {
     const { collapsed } = this.props;
 
     return (
-      <Header style={{ background: '#fff', padding: 0 }}>
+      <Header className={styles.header}>
         <Icon
           className={styles.trigger}
           type={collapsed ? 'menu-unfold' : 'menu-fold'}
           onClick={this.toggle}
         />
+        <RightContent />
       </Header>
     );
   }

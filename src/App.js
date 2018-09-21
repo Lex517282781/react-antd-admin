@@ -22,7 +22,12 @@ class App extends Component {
 
     return (
       <Layout className={styles.App}>
-        <Sider trigger={null} collapsible collapsed={collapsed}>
+        <Sider
+          className={styles.sider}
+          trigger={null}
+          collapsible
+          collapsed={collapsed}
+        >
           <div className={styles.logo} />
           <SideBar />
         </Sider>

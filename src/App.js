@@ -97,7 +97,7 @@ class App extends Component {
     );
 
     return (
-      <DocumentTitle title={zhMessages[`menu.${lastPathname}`]}>
+      <DocumentTitle title={zhMessages[`menu.${lastPathname}`] || lastPathname}>
         <ContainerQuery query={query}>
           {params => <div className={classNames(params)}>{layout}</div>}
         </ContainerQuery>

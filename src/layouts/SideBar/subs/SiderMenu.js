@@ -42,7 +42,6 @@ class SideBar extends Component {
     const latestOpenKey = openKeys.find(
       key => sidebar.openKeys.indexOf(key) === -1
     );
-
     if (rootSubmenuKeys.indexOf(latestOpenKey) === -1) {
       sidebar_update({
         openKeys
@@ -135,12 +134,11 @@ class SideBar extends Component {
       location.pathname.lastIndexOf('/') + 1
     );
 
+    // 为了解决menu收缩时二级以下菜单不跟随的问题 menu的key值单独设置
     const keysProps = sidebar.collapsed ? {} : {
       openKeys: sidebar.openKeys || [],
       selectedKeys:[key]
     }
-
-    // console.log(sidebar.openKeys, 'sidebar.openKeys')
 
     return (
       <Sider

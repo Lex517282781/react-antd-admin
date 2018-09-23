@@ -53,6 +53,13 @@ class SideBar extends Component {
     }
   };
 
+  handleSelect = ({ item }) => {
+    const { sidebar_update } = this.props;
+    sidebar_update({
+      openKeys: item.props.openKeys
+    });
+  }
+
   renderMenuItem = ({ text, icon, key }) => {
     return (
       <Menu.Item onClick={this.handleRouter} key={key}>
@@ -127,6 +134,13 @@ class SideBar extends Component {
       location.pathname.lastIndexOf('/') + 1
     );
 
+    const keysProps = sidebar.collapsed ? {} : {
+      openKeys: sidebar.openKeys || [],
+      selectedKeys:[key]
+    }
+
+    // console.log(sidebar.openKeys, 'sidebar.openKeys')
+
     return (
       <Sider
         breakpoint="lg"
@@ -143,9 +157,9 @@ class SideBar extends Component {
           theme="dark"
           mode="inline"
           inlineCollapsed={sidebar.collapsed}
-          openKeys={sidebar.openKeys || []}
           onOpenChange={this.onOpenChange}
-          selectedKeys={[key]}
+          onSelect={this.handleSelect}
+          {...keysProps}
         >
           {menu.data.map(
             menuItem =>

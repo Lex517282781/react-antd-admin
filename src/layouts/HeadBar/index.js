@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { actionCreators as headbarActionCreators } from './store';
-import { actionCreators as sidebarActionCreators } from '@/components/SideBar/store';
+import { actionCreators as sidebarActionCreators } from '@/layouts/SideBar/store';
 import { Layout, Icon } from 'antd';
-import RightContent from './layouts/RightContent';
+import RightContent from './subs/RightContent';
 import styles from './style.less';
 
 const { Header } = Layout;

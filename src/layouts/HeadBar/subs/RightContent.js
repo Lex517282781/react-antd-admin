@@ -75,7 +75,6 @@ class RightContent extends Component {
         <Tooltip title="使用文档">
           <a
             target="_blank"
-            href="https://pro.ant.design/docs/getting-started"
             rel="noopener noreferrer"
             className={styles.action}
             title="使用文档"

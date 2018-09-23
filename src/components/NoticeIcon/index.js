@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Popover, Tabs, Badge, Spin, Icon } from 'antd';
 import classNames from 'classnames';
-import List from './layouts/NoticeList';
+import List from './subs/NoticeList';
 import styles from './index.less';
 const { TabPane } = Tabs;
 
@@ -34,6 +34,7 @@ class NoticeIcon extends Component {
 
   getNotificationBox() {
     const { children, loading, locale, onClear } = this.props;
+    
     if (!children) {
       return null;
     }

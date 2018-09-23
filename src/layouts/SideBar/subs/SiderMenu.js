@@ -37,6 +37,7 @@ class SideBar extends Component {
 
   onOpenChange = openKeys => {
     const { sidebar, menu, sidebar_update } = this.props;
+    if (sidebar.collapsed) return; // 在菜单收缩的时候 菜单选择以handleSelect为准 不执行以下内容
     const rootSubmenuKeys = menu.data.map(item => item.key);
     const latestOpenKey = openKeys.find(
       key => sidebar.openKeys.indexOf(key) === -1

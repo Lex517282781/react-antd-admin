@@ -10,10 +10,10 @@ import DocumentTitle from 'react-document-title';
 import SideBar from './layouts/SideBar';
 import HeadBar from './layouts/HeadBar';
 import classNames from 'classnames';
-import './App.less';
+import zhMessages from '@/locales/zh-CN';
 import styles from './App.less';
 
-const { Sider, Content } = Layout;
+const { Content } = Layout;
 
 const query = {
   'screen-xs': {
@@ -62,28 +62,24 @@ class App extends Component {
     unenquireScreen(this.enquireHandler);
   }
 
-  getPageTitle = pathname => {
-    return 'pathname';
+  handleCollapse = () => {
+    const { collapsed, sidebar_update } = this.props;
+    sidebar_update({
+      collapsed: !collapsed
+    });
   };
 
   render() {
-    const { collapsed } = this.props;
+    const {
+      location: { pathname }
+    } = this.props;
     const { isMobile } = this.state;
+
+    const lastPathname = pathname.slice(pathname.lastIndexOf('/') + 1);
 
     const layout = (
       <Layout className={styles.App}>
-        {!isMobile && (
-          <Sider
-            className={styles.sider}
-            trigger={null}
-            collapsible
-            collapsed={collapsed}
-          >
-            <div className={styles.logo} />
-            <SideBar />
-          </Sider>
-        )}
-
+        {!isMobile && <SideBar />}
         <Layout>
           <HeadBar />
           <Content
@@ -101,7 +97,7 @@ class App extends Component {
     );
 
     return (
-      <DocumentTitle title={this.getPageTitle('pathname')}>
+      <DocumentTitle title={zhMessages[`menu.${lastPathname}`]}>
         <ContainerQuery query={query}>
           {params => <div className={classNames(params)}>{layout}</div>}
         </ContainerQuery>

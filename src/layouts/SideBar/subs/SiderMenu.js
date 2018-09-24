@@ -58,7 +58,7 @@ class SideBar extends Component {
     sidebar_update({
       openKeys: item.props.openKeys
     });
-  }
+  };
 
   renderMenuItem = ({ text, icon, key }) => {
     return (
@@ -120,25 +120,20 @@ class SideBar extends Component {
     return currentKey;
   };
 
-  handleCollapse = () => {
-    const { sidebar, sidebar_update } = this.props;
-    sidebar_update({
-      collapsed: !sidebar.collapsed
-    });
-  };
-
   render() {
-    const { menu, sidebar, location } = this.props;
+    const { menu, location, onCollapse, collapsed, openKeys } = this.props;
 
     const key = location.pathname.substr(
       location.pathname.lastIndexOf('/') + 1
     );
 
     // 为了解决menu收缩时二级以下菜单不跟随的问题 menu的key值单独设置
-    const keysProps = sidebar.collapsed ? {} : {
-      openKeys: sidebar.openKeys || [],
-      selectedKeys:[key]
-    }
+    const keysProps = collapsed
+      ? {}
+      : {
+          openKeys: openKeys || [],
+          selectedKeys: [key]
+        };
 
     return (
       <Sider
@@ -147,15 +142,15 @@ class SideBar extends Component {
         className={styles.sider}
         trigger={null}
         collapsible
-        collapsed={sidebar.collapsed}
-        onCollapse={this.handleCollapse}
+        collapsed={collapsed}
+        onCollapse={onCollapse}
       >
         <div className={styles.logo} />
         <Menu
           inlineIndent="16"
           theme="dark"
           mode="inline"
-          inlineCollapsed={sidebar.collapsed}
+          inlineCollapsed={collapsed}
           onOpenChange={this.onOpenChange}
           onSelect={this.handleSelect}
           {...keysProps}

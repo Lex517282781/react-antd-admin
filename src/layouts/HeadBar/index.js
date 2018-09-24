@@ -11,10 +11,12 @@ const { Header } = Layout;
 
 class HeadBar extends Component {
   toggle = () => {
-    const { collapsed, sidebar_update } = this.props;
-    sidebar_update({
-      collapsed: !collapsed
-    });
+    const { collapsed, onCollapse } = this.props; // sidebar_update
+    // console.log(collapsed, 'collapsed 15');
+    onCollapse(!collapsed);
+    // sidebar_update({
+    //   collapsed: !collapsed
+    // });
   };
 
   render() {

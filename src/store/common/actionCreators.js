@@ -22,3 +22,8 @@ export const menu_update = () => {
     dispatch(menu_success(res.children));
   };
 };
+
+export const device_update = device => ({
+  type: types.DEVICE_UPDATE,
+  device
+});

@@ -4,6 +4,9 @@ const defaultState = {
   menu: {
     loading: false,
     data: []
+  },
+  device: {
+    isMobile: false
   }
 };
 
@@ -32,6 +35,14 @@ const getStateByMenuFailure = (state, menu) => ({
   }
 });
 
+const getStateByDeviceUpdate = (state, device) => ({
+  ...state,
+  device: {
+    ...state.device,
+    ...device
+  }
+});
+
 export default (state = defaultState, action) => {
   switch (action.type) {
     case types.MENU_REQUEST:
@@ -40,6 +51,8 @@ export default (state = defaultState, action) => {
       return getStateByMenuSuccess(state, action.data);
     case types.MENU_FAILURE:
       return getStateByMenuFailure(state);
+    case types.DEVICE_UPDATE:
+      return getStateByDeviceUpdate(state, action.device);
     default:
       return state;
   }

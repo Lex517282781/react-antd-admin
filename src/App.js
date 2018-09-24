@@ -41,17 +41,12 @@ const query = {
 };
 
 class App extends Component {
-  state = {
-    isMobile: false
-  };
-
   componentDidMount() {
-    const { menu_update } = this.props;
+    const { menu_update, device_update, isMobile } = this.props;
     menu_update();
     this.enquireHandler = enquireScreen(mobile => {
-      const { isMobile } = this.state;
       if (isMobile !== mobile) {
-        this.setState({
+        device_update({
           isMobile: mobile
         });
       }
@@ -62,10 +57,11 @@ class App extends Component {
     unenquireScreen(this.enquireHandler);
   }
 
-  handleCollapse = () => {
-    const { collapsed, sidebar_update } = this.props;
+  handleCollapse = collapsed => {
+    const { sidebar_update } = this.props;
+    console.log(collapsed, 'collapsed 4444')
     sidebar_update({
-      collapsed: !collapsed
+      collapsed
     });
   };
 
@@ -73,15 +69,14 @@ class App extends Component {
     const {
       location: { pathname }
     } = this.props;
-    const { isMobile } = this.state;
 
     const lastPathname = pathname.slice(pathname.lastIndexOf('/') + 1);
 
     const layout = (
       <Layout className={styles.App}>
-        {!isMobile && <SideBar />}
+        <SideBar onCollapse={this.handleCollapse} />
         <Layout>
-          <HeadBar />
+          <HeadBar onCollapse={this.handleCollapse} />
           <Content
             style={{
               margin: '24px 16px',
@@ -107,12 +102,16 @@ class App extends Component {
 }
 
 const mapStateToProps = state => ({
-  collapsed: state.sidebar.collapsed
+  collapsed: state.sidebar.collapsed,
+  isMobile: state.common.device.isMobile
 });
 
 const mapDispatchToProps = dispatch => ({
   menu_update(data) {
     dispatch(commonActionCreators.menu_update(data));
+  },
+  device_update(data) {
+    dispatch(commonActionCreators.device_update(data));
   },
   sidebar_update(data) {
     dispatch(sidebarActionCreators.sidebar_update(data));

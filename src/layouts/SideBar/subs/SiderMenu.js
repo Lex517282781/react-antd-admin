@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { actionCreators as sidebarActionCreators } from '../store';
 import { Menu, Icon, Layout } from 'antd';
 import zhMessages from '@/locales/zh-CN';
+import logo from '@/assets/imgs/logo.svg';
 import styles from './SiderMenu.less';
 const SubMenu = Menu.SubMenu;
 const MenuItemGroup = Menu.ItemGroup;
@@ -152,7 +153,12 @@ class SideBar extends Component {
         collapsed={collapsed}
         onCollapse={this.handleCollapse}
       >
-        <div className={styles.logo} />
+        <div className={styles.logo} id="logo">
+          <Link to="/">
+            <img src={logo} alt="logo" />
+            <h1>Ant Design Pro</h1>
+          </Link>
+        </div>
         <Menu
           inlineIndent="16"
           theme="dark"

@@ -84,12 +84,12 @@ class App extends Component {
         <Layout>
           <HeadBar />
           <Content
-            style={{
-              margin: '16px',
-              padding: 24,
-              background: '#fff',
-              minHeight: 280
-            }}
+          // style={{
+          //   margin: '16px',
+          //   padding: 24,
+          //   background: '#fff',
+          //   minHeight: 280
+          // }}
           >
             <Routes />
           </Content>

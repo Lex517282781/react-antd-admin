@@ -1,5 +1,4 @@
 import asyncComponent from './asyncComponent';
+import getBreadcrumbNameMap from './getBreadcrumbNameMap';
 
-export {
-  asyncComponent
-}
+export { asyncComponent, getBreadcrumbNameMap };

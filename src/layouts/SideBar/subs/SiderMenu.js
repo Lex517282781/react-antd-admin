@@ -120,8 +120,15 @@ class SideBar extends Component {
     return currentKey;
   };
 
+  handleCollapse = collapsed => {
+    const { sidebar_update } = this.props;
+    sidebar_update({
+      collapsed
+    });
+  };
+
   render() {
-    const { menu, location, onCollapse, collapsed, openKeys } = this.props;
+    const { menu, location, collapsed, openKeys } = this.props;
 
     const key = location.pathname.substr(
       location.pathname.lastIndexOf('/') + 1
@@ -143,7 +150,7 @@ class SideBar extends Component {
         trigger={null}
         collapsible
         collapsed={collapsed}
-        onCollapse={onCollapse}
+        onCollapse={this.handleCollapse}
       >
         <div className={styles.logo} />
         <Menu

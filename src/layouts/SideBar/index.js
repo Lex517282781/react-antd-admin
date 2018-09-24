@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { actionCreators as sidebarActionCreators } from '@/layouts/SideBar/store';
 import { Drawer } from 'antd';
 import SiderMenu from './subs/SiderMenu';
 
@@ -9,29 +10,36 @@ class SideBar extends Component {
 
   componentWillReceiveProps(nextProps) {}
 
+  handleCollapse = collapsed => {
+    const { sidebar_update } = this.props;
+    sidebar_update({
+      collapsed
+    });
+  };
+
   render() {
-    const { isMobile, sidebar, onCollapse } = this.props;
-    // console.log(sidebar.collapsed, 'sidebar.collapsed');
+    const { isMobile, sidebar } = this.props;
+
     return isMobile ? (
       <Drawer
         visible={!sidebar.collapsed}
         closable={false}
         placement="left"
-        onClose={() => onCollapse(true)}
+        onClose={() => this.handleCollapse(true)}
         style={{
           padding: 0,
           height: '100vh'
         }}
       >
         <SiderMenu
-          onCollapse={onCollapse}
+          onCollapse={this.handleCollapse}
           collapsed={isMobile ? false : sidebar.collapsed}
           openKeys={sidebar.openKeys}
         />
       </Drawer>
     ) : (
       <SiderMenu
-        onCollapse={onCollapse}
+        onCollapse={this.handleCollapse}
         collapsed={sidebar.collapsed}
         openKeys={sidebar.openKeys}
       />
@@ -45,7 +53,11 @@ const mapStateToProps = state => ({
   isMobile: state.common.device.isMobile
 });
 
-const mapDispatchToProps = () => ({});
+const mapDispatchToProps = dispatch => ({
+  sidebar_update(data) {
+    dispatch(sidebarActionCreators.sidebar_update(data));
+  }
+});
 
 export default withRouter(
   connect(

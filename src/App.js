@@ -53,13 +53,19 @@ class App extends Component {
     });
   }
 
+  componentDidUpdate() {
+    const { isMobile, collapsed } = this.props;
+    if (isMobile && !collapsed) {
+      this.handleCollapse(false);
+    }
+  }
+
   componentWillUnmount() {
     unenquireScreen(this.enquireHandler);
   }
 
   handleCollapse = collapsed => {
     const { sidebar_update } = this.props;
-    console.log(collapsed, 'collapsed 4444')
     sidebar_update({
       collapsed
     });
@@ -74,12 +80,12 @@ class App extends Component {
 
     const layout = (
       <Layout className={styles.App}>
-        <SideBar onCollapse={this.handleCollapse} />
+        <SideBar />
         <Layout>
-          <HeadBar onCollapse={this.handleCollapse} />
+          <HeadBar />
           <Content
             style={{
-              margin: '24px 16px',
+              margin: '16px',
               padding: 24,
               background: '#fff',
               minHeight: 280

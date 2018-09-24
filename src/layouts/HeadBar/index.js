@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { actionCreators as headbarActionCreators } from './store';
 import { actionCreators as sidebarActionCreators } from '@/layouts/SideBar/store';
+import Debounce from 'lodash-decorators/debounce';
 import { Layout, Icon } from 'antd';
 import RightContent from './subs/RightContent';
 import styles from './style.less';
@@ -10,13 +10,20 @@ import styles from './style.less';
 const { Header } = Layout;
 
 class HeadBar extends Component {
+  @Debounce(600)
+  triggerResizeEvent() {
+    // eslint-disable-line
+    const event = document.createEvent('HTMLEvents');
+    event.initEvent('resize', true, false);
+    window.dispatchEvent(event);
+  }
+
   toggle = () => {
-    const { collapsed, onCollapse } = this.props; // sidebar_update
-    // console.log(collapsed, 'collapsed 15');
-    onCollapse(!collapsed);
-    // sidebar_update({
-    //   collapsed: !collapsed
-    // });
+    const { collapsed, sidebar_update } = this.props;
+    sidebar_update({
+      collapsed: !collapsed
+    });
+    this.triggerResizeEvent();
   };
 
   render() {
@@ -42,9 +49,6 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  headbar_update(data) {
-    dispatch(headbarActionCreators.headbar_update(data));
-  },
   sidebar_update(data) {
     dispatch(sidebarActionCreators.sidebar_update(data));
   }

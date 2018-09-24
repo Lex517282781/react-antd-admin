@@ -4,6 +4,7 @@ import { asyncComponent } from '@/utils';
 
 const Dashboard = asyncComponent(() => import('@/pages/Dashboard'));
 const AAAA = asyncComponent(() => import('@/pages/AAAA'));
+const AAB = asyncComponent(() => import('@/pages/AAB'));
 
 class Routers extends Component {
   render() {
@@ -16,6 +17,7 @@ class Routers extends Component {
         />
         <Route exact path="/app/dashboard" component={Dashboard} />
         <Route exact path="/app/aaaa" component={AAAA} />
+        <Route exact path="/app/aab" component={AAB} />
       </Switch>
     );
   }

@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { actionCreators as aabActionCreators } from '../store';
 import {
   Form,
   Input,
@@ -17,25 +19,32 @@ const { TextArea } = Input;
 const { Option } = Select;
 const RadioGroup = Radio.Group;
 
-@Form.create()
+const initData = {
+  target: '0',
+  template: '0',
+  type: '1',
+  time: '',
+  frequency: 'month'
+};
+
 class UpdateForm extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      formVals: {
-        name: props.values.name,
-        desc: props.values.desc,
-        key: props.values.key,
-        target: '0',
-        template: '0',
-        type: '1',
-        time: '',
-        frequency: 'month'
-      },
-      currentStep: 0,
-      updateModalVisible: false,
-      stepFormValues: {}
+      // formVals: {
+      //   name: props.values.name,
+      //   desc: props.values.desc,
+      //   key: props.values.key,
+      //   target: '0',
+      //   template: '0',
+      //   type: '1',
+      //   time: '',
+      //   frequency: 'month'
+      // },
+      // currentStep: 0,
+      // updateModalVisible: false,
+      // stepFormValues: {}
     };
 
     this.formLayout = {
@@ -45,23 +54,33 @@ class UpdateForm extends Component {
   }
 
   handleNext = currentStep => {
-    const { form, handleUpdate } = this.props;
-    const { formVals: oldValue } = this.state;
+    const { form, current, current_update } = this.props;
+    // const { formVals: oldValue } = this.state;
     form.validateFields((err, fieldsValue) => {
       if (err) return;
-      const formVals = { ...oldValue, ...fieldsValue };
-      this.setState(
-        {
-          formVals
-        },
-        () => {
-          if (currentStep < 2) {
-            this.forward();
-          } else {
-            handleUpdate(formVals);
-          }
-        }
-      );
+      console.log(fieldsValue, 'fieldsValue');
+      const formVals = { ...current, ...fieldsValue };
+
+      current_update(formVals);
+
+      if (currentStep < 2) {
+        this.forward();
+      } else {
+        this.handleUpdate(formVals);
+      }
+
+      // this.setState(
+      //   {
+      //     formVals
+      //   },
+      //   () => {
+      //     if (currentStep < 2) {
+      //       this.forward();
+      //     } else {
+      //       handleUpdate(formVals);
+      //     }
+      //   }
+      // );
     });
   };
 
@@ -73,9 +92,9 @@ class UpdateForm extends Component {
   };
 
   forward = () => {
-    const { currentStep } = this.state;
-    this.setState({
-      currentStep: currentStep + 1
+    const { updateForm_update, updateForm } = this.props;
+    updateForm_update({
+      currentStep: updateForm.currentStep + 1
     });
   };
 
@@ -212,50 +231,81 @@ class UpdateForm extends Component {
     ];
   };
 
-  handleUpdateModalVisible = (flag, record) => {
-    this.setState({
-      updateModalVisible: !!flag,
-      stepFormValues: record || {}
+  handleUpdateModalVisible = () => {
+    this.props.updateForm_update({
+      visible: false
     });
   };
 
   handleUpdate = fields => {
-    const { dispatch } = this.props;
-    dispatch({
-      type: 'rule/update',
-      payload: {
-        name: fields.name,
-        desc: fields.desc,
-        key: fields.key
-      }
-    });
+    // const { dispatch } = this.props;
+    console.log(fields, 1);
+    // todo ?
+    // dispatch({
+    //   type: 'rule/update',
+    //   payload: {
+    //     name: fields.name,
+    //     desc: fields.desc,
+    //     key: fields.key
+    //   }
+    // });
 
-    message.success('配置成功');
-    this.handleUpdateModalVisible();
+    // message.success('配置成功');
+    // this.handleUpdateModalVisible();
   };
 
   render() {
-    const { currentStep, formVals, updateModalVisible } = this.state;
-
+    const { updateForm, current } = this.props;
+    const formVals = {
+      name: current.name,
+      desc: current.desc,
+      key: current.key,
+      ...initData
+    };
     return (
       <Modal
         width={640}
         bodyStyle={{ padding: '32px 40px 48px' }}
         destroyOnClose
         title="规则配置"
-        visible={updateModalVisible}
-        footer={this.renderFooter(currentStep)}
+        visible={updateForm.visible}
+        footer={this.renderFooter(updateForm.currentStep)}
         onCancel={() => this.handleUpdateModalVisible()}
       >
-        <Steps style={{ marginBottom: 28 }} size="small" current={currentStep}>
+        <Steps
+          style={{ marginBottom: 28 }}
+          size="small"
+          current={updateForm.currentStep}
+        >
           <Step title="基本信息" />
           <Step title="配置规则属性" />
           <Step title="设定调度周期" />
         </Steps>
-        {this.renderContent(currentStep, formVals)}
+        {this.renderContent(updateForm.currentStep, formVals)}
       </Modal>
     );
   }
 }
 
-export default UpdateForm;
+const mapStateToProps = state => ({
+  table: state.aab.table,
+  updateForm: state.aab.updateForm,
+  current: state.aab.current
+});
+
+const mapDispatchToProps = dispatch => ({
+  table_update(query) {
+    dispatch(aabActionCreators.table_update(query));
+  },
+  current_update(data) {
+    dispatch(aabActionCreators.current_update(data));
+  },
+  updateForm_update(data) {
+    dispatch(aabActionCreators.updateForm_update(data));
+  }
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Form.create()(UpdateForm));

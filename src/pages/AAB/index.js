@@ -2,26 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { actionCreators as aabActionCreators } from './store';
 import moment from 'moment';
-import {
-  Row,
-  Col,
-  Card,
-  Form,
-  Input,
-  Select,
-  Icon,
-  Button,
-  Dropdown,
-  Menu,
-  InputNumber,
-  DatePicker,
-  Modal,
-  message,
-  Badge,
-  Divider,
-  Steps,
-  Radio
-} from 'antd';
+import { Card, Icon, Button, Dropdown, Menu, Badge, Divider } from 'antd';
 import StandardTable from '@/components/StandardTable';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import TableQueryForm from './subs/TableQueryForm';
@@ -30,11 +11,6 @@ import UpdateForm from './subs/UpdateForm';
 
 import styles from './style.less';
 
-const FormItem = Form.Item;
-const { Step } = Steps;
-const { TextArea } = Input;
-const { Option } = Select;
-const RadioGroup = Radio.Group;
 const getValue = obj =>
   Object.keys(obj)
     .map(key => obj[key])
@@ -110,9 +86,7 @@ class AAB extends Component {
       title: '操作',
       render: (text, record) => (
         <Fragment>
-          <a onClick={() => this.handleUpdateModalVisible(true, record)}>
-            配置
-          </a>
+          <a onClick={() => this.handleUpdateModalVisible(record)}>配置</a>
           <Divider type="vertical" />
           <a href="">订阅警报</a>
         </Fragment>
@@ -183,16 +157,21 @@ class AAB extends Component {
     });
   };
 
-  handleUpdateModalVisible = (flag, record) => {
-    this.setState({
-      updateModalVisible: !!flag,
-      stepFormValues: record || {}
+  handleUpdateModalVisible = record => {
+    // this.setState({
+    //   updateModalVisible: !!flag,
+    //   stepFormValues: record || {}
+    // });
+    const { current_update, updateForm_update } = this.props;
+    current_update(record);
+    updateForm_update({
+      visible: true
     });
   };
 
   render() {
-    const { table } = this.props;
-    const { selectedRows, stepFormValues } = this.state;
+    const { table, current } = this.props;
+    const { selectedRows } = this.state;
     const menu = (
       <Menu onClick={this.handleMenuClick} selectedKeys={[]}>
         <Menu.Item key="remove">删除</Menu.Item>
@@ -237,21 +216,26 @@ class AAB extends Component {
           </div>
         </Card>
         <CreateForm />
-        {stepFormValues && Object.keys(stepFormValues).length ? (
-          <UpdateForm />
-        ) : null}
+        {current.key !== undefined && <UpdateForm />}
       </PageHeaderWrapper>
     );
   }
 }
 
 const mapStateToProps = state => ({
-  table: state.aab.table
+  table: state.aab.table,
+  current: state.aab.current
 });
 
 const mapDispatchToProps = dispatch => ({
   table_update(query) {
     dispatch(aabActionCreators.table_update(query));
+  },
+  current_update(data) {
+    dispatch(aabActionCreators.current_update(data));
+  },
+  updateForm_update(data) {
+    dispatch(aabActionCreators.updateForm_update(data));
   }
 });
 

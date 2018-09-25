@@ -15,7 +15,7 @@ export const table_failure = () => ({
   type: types.TABLE_FAILURE
 });
 
-export const table_update = (params) => {
+export const table_update = params => {
   return async dispatch => {
     dispatch(table_request());
     let data = await Service.getTable({
@@ -30,3 +30,18 @@ export const table_update = (params) => {
     dispatch(table_success(data));
   };
 };
+
+export const createForm_update = createForm => ({
+  type: types.CREATEFORM_UPDATE,
+  createForm
+});
+
+export const updateForm_update = updateForm => ({
+  type: types.UPDATEFORM_UPDATE,
+  updateForm
+});
+
+export const current_update = current => ({
+  type: types.CURRENT_UPDATE,
+  current
+});

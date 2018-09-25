@@ -11,6 +11,17 @@ const defaultState = {
         current: 1
       }
     }
+  },
+  createForm: {
+    loading: false
+  },
+  updateForm: {
+    loading: false,
+    visible: false,
+    currentStep: 0
+  },
+  current: {
+    loading: false
   }
 };
 
@@ -39,6 +50,36 @@ const getStateByTableFailure = (state, table) => ({
   }
 });
 
+const createForm_update = (state, createForm) => {
+  return {
+    ...state,
+    createForm: {
+      ...state.createForm,
+      ...createForm
+    }
+  };
+};
+
+const updateForm_update = (state, updateForm) => {
+  return {
+    ...state,
+    updateForm: {
+      ...state.updateForm,
+      ...updateForm
+    }
+  };
+};
+
+const current_update = (state, current) => {
+  return {
+    ...state,
+    current: {
+      ...state.current,
+      ...current
+    }
+  };
+};
+
 export default (state = defaultState, action) => {
   switch (action.type) {
     case types.TABLE_REQUEST:
@@ -47,6 +88,12 @@ export default (state = defaultState, action) => {
       return getStateByTableSuccess(state, action.data);
     case types.TABLE_FAILURE:
       return getStateByTableFailure(state);
+    case types.CREATEFORM_UPDATE:
+      return createForm_update(state, action.createForm);
+    case types.UPDATEFORM_UPDATE:
+      return updateForm_update(state, action.updateForm);
+    case types.CURRENT_UPDATE:
+      return current_update(state, action.current);
     default:
       return state;
   }

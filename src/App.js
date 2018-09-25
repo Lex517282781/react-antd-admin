@@ -9,6 +9,7 @@ import { enquireScreen, unenquireScreen } from 'enquire-js';
 import DocumentTitle from 'react-document-title';
 import SideBar from './layouts/SideBar';
 import HeadBar from './layouts/HeadBar';
+import Footer from './layouts/Footer';
 import classNames from 'classnames';
 import zhMessages from '@/locales/zh-CN';
 import styles from './App.less';
@@ -83,16 +84,10 @@ class App extends Component {
         <SideBar />
         <Layout>
           <HeadBar />
-          <Content
-          // style={{
-          //   margin: '16px',
-          //   padding: 24,
-          //   background: '#fff',
-          //   minHeight: 280
-          // }}
-          >
+          <Content>
             <Routes />
           </Content>
+          <Footer />
         </Layout>
       </Layout>
     );

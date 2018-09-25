@@ -3,7 +3,14 @@ import * as types from './types';
 const defaultState = {
   table: {
     loading: false,
-    data: []
+    data: {
+      list: [],
+      pagination: {
+        total: 0,
+        pageSize: 10,
+        current: 1
+      }
+    }
   }
 };
 

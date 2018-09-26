@@ -20,7 +20,7 @@ class CreateForm extends Component {
   };
 
   handleAdd = fields => {
-    console.log(fields, 'fields');
+    console.log(fields, 'fields create');
     message.success('添加成功');
     this.handleModalVisible();
   };

@@ -208,18 +208,7 @@ class UpdateForm extends Component {
   };
 
   handleUpdate = fields => {
-    // const { dispatch } = this.props;
-    console.log(fields, 1);
-    // todo ?
-    // dispatch({
-    //   type: 'rule/update',
-    //   payload: {
-    //     name: fields.name,
-    //     desc: fields.desc,
-    //     key: fields.key
-    //   }
-    // });
-
+    console.log(fields, 'fields update');
     message.success('配置成功');
     this.props.updateForm_update({
       visible: false,

@@ -6,3 +6,4 @@ export const CREATEFORM_UPDATE = 'createForm/UPDATE';
 export const UPDATEFORM_UPDATE = 'updateForm/UPDATE';
 
 export const CURRENT_UPDATE = 'current/UPDATE';
+export const SELECTEDROWS_UPDATE = 'selectedRows/UPDATE';

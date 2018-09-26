@@ -150,7 +150,7 @@ class TableQueryForm extends Component {
   handleSearch = e => {
     e.preventDefault();
 
-    const { dispatch, form } = this.props;
+    const { form } = this.props;
 
     form.validateFields((err, fieldsValue) => {
       if (err) return;
@@ -164,23 +164,18 @@ class TableQueryForm extends Component {
         formValues: values
       });
 
-      dispatch({
-        type: 'rule/fetch',
-        payload: values
-      });
+      console.log(values, 'values query');
     });
   };
 
   handleFormReset = () => {
-    const { form, dispatch } = this.props;
+    const { form } = this.props;
     form.resetFields();
     this.setState({
       formValues: {}
     });
-    dispatch({
-      type: 'rule/fetch',
-      payload: {}
-    });
+
+    console.log('重置, 传递 {}');
   };
 
   render() {

@@ -88,7 +88,7 @@ class AAB extends Component {
         <Fragment>
           <a onClick={() => this.handleUpdateModalVisible(record)}>配置</a>
           <Divider type="vertical" />
-          <a href="">订阅警报</a>
+          <a>订阅警报</a>
         </Fragment>
       )
     }
@@ -128,23 +128,14 @@ class AAB extends Component {
   };
 
   handleMenuClick = e => {
-    const { dispatch } = this.props;
-    const { selectedRows } = this.state;
+    const { slectedRows_update, selectedRows } = this.props;
 
     if (!selectedRows) return;
     switch (e.key) {
       case 'remove':
-        dispatch({
-          type: 'rule/remove',
-          payload: {
-            key: selectedRows.map(row => row.key)
-          },
-          callback: () => {
-            this.setState({
-              selectedRows: []
-            });
-          }
-        });
+        console.log(selectedRows.map(row => row.key), 'selectedRows');
+        slectedRows_update([]);
+        // submit data callback selectedRows: []
         break;
       default:
         break;
@@ -152,9 +143,7 @@ class AAB extends Component {
   };
 
   handleSelectRows = rows => {
-    this.setState({
-      selectedRows: rows
-    });
+    this.props.slectedRows_update(rows);
   };
 
   handleUpdateModalVisible = record => {
@@ -173,8 +162,7 @@ class AAB extends Component {
   };
 
   render() {
-    const { table, current } = this.props;
-    const { selectedRows } = this.state;
+    const { table, current, selectedRows } = this.props;
     const menu = (
       <Menu onClick={this.handleMenuClick} selectedKeys={[]}>
         <Menu.Item key="remove">删除</Menu.Item>
@@ -227,7 +215,8 @@ class AAB extends Component {
 
 const mapStateToProps = state => ({
   table: state.aab.table,
-  current: state.aab.current
+  current: state.aab.current,
+  selectedRows: state.aab.selectedRows
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -242,6 +231,9 @@ const mapDispatchToProps = dispatch => ({
   },
   createForm_update(data) {
     dispatch(aabActionCreators.createForm_update(data));
+  },
+  slectedRows_update(data) {
+    dispatch(aabActionCreators.slectedRows_update(data));
   }
 });
 

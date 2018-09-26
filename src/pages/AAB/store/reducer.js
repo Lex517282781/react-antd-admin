@@ -22,7 +22,8 @@ const defaultState = {
   },
   current: {
     loading: false
-  }
+  },
+  selectedRows: []
 };
 
 const getStateByTableRequest = state => ({
@@ -80,6 +81,13 @@ const current_update = (state, current) => {
   };
 };
 
+const selectedRows_update = (state, selectedRows) => {
+  return {
+    ...state,
+    selectedRows
+  };
+};
+
 export default (state = defaultState, action) => {
   switch (action.type) {
     case types.TABLE_REQUEST:
@@ -94,6 +102,8 @@ export default (state = defaultState, action) => {
       return updateForm_update(state, action.updateForm);
     case types.CURRENT_UPDATE:
       return current_update(state, action.current);
+    case types.SELECTEDROWS_UPDATE:
+      return selectedRows_update(state, action.selectedRows);
     default:
       return state;
   }

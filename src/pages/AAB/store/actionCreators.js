@@ -45,3 +45,8 @@ export const current_update = current => ({
   type: types.CURRENT_UPDATE,
   current
 });
+
+export const slectedRows_update = selectedRows => ({
+  type: types.SELECTEDROWS_UPDATE,
+  selectedRows
+});

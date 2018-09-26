@@ -30,23 +30,6 @@ const initData = {
 class UpdateForm extends Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      // formVals: {
-      //   name: props.values.name,
-      //   desc: props.values.desc,
-      //   key: props.values.key,
-      //   target: '0',
-      //   template: '0',
-      //   type: '1',
-      //   time: '',
-      //   frequency: 'month'
-      // },
-      // currentStep: 0,
-      // updateModalVisible: false,
-      // stepFormValues: {}
-    };
-
     this.formLayout = {
       labelCol: { span: 7 },
       wrapperCol: { span: 13 }
@@ -55,7 +38,6 @@ class UpdateForm extends Component {
 
   handleNext = currentStep => {
     const { form, current, current_update } = this.props;
-    // const { formVals: oldValue } = this.state;
     form.validateFields((err, fieldsValue) => {
       if (err) return;
       console.log(fieldsValue, 'fieldsValue');
@@ -68,26 +50,13 @@ class UpdateForm extends Component {
       } else {
         this.handleUpdate(formVals);
       }
-
-      // this.setState(
-      //   {
-      //     formVals
-      //   },
-      //   () => {
-      //     if (currentStep < 2) {
-      //       this.forward();
-      //     } else {
-      //       handleUpdate(formVals);
-      //     }
-      //   }
-      // );
     });
   };
 
   backward = () => {
-    const { currentStep } = this.state;
-    this.setState({
-      currentStep: currentStep - 1
+    const { updateForm_update, updateForm } = this.props;
+    updateForm_update({
+      currentStep: updateForm.currentStep - 1
     });
   };
 
@@ -233,7 +202,8 @@ class UpdateForm extends Component {
 
   handleUpdateModalVisible = () => {
     this.props.updateForm_update({
-      visible: false
+      visible: false,
+      currentStep: 0
     });
   };
 
@@ -250,8 +220,11 @@ class UpdateForm extends Component {
     //   }
     // });
 
-    // message.success('配置成功');
-    // this.handleUpdateModalVisible();
+    message.success('配置成功');
+    this.props.updateForm_update({
+      visible: false,
+      currentStep: 0
+    });
   };
 
   render() {

@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { actionCreators as aabActionCreators } from '../store';
 import { Form, Input, Modal, message } from 'antd';
 
 const FormItem = Form.Item;
 
-@Form.create()
 class CreateForm extends Component {
   state = {
     modalVisible: false
@@ -19,34 +20,27 @@ class CreateForm extends Component {
   };
 
   handleAdd = fields => {
-    const { dispatch } = this.props;
-    dispatch({
-      type: 'rule/add',
-      payload: {
-        desc: fields.desc
-      }
-    });
-
+    console.log(fields, 'fields');
     message.success('添加成功');
     this.handleModalVisible();
   };
 
-  handleModalVisible = flag => {
-    this.setState({
-      modalVisible: !!flag
+  handleModalVisible = () => {
+    this.props.createForm_update({
+      visible: false
     });
   };
 
   render() {
-    const { modalVisible, form } = this.props;
+    const { form, createForm } = this.props;
 
     return (
       <Modal
         destroyOnClose
         title="新建规则"
-        visible={modalVisible}
+        visible={createForm.visible}
         onOk={this.handleok}
-        onCancel={() => this.handleModalVisible()}
+        onCancel={this.handleModalVisible}
       >
         <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="描述">
           {form.getFieldDecorator('desc', {
@@ -64,4 +58,25 @@ class CreateForm extends Component {
   }
 }
 
-export default CreateForm;
+const mapStateToProps = state => ({
+  table: state.aab.table,
+  createForm: state.aab.createForm,
+  current: state.aab.current
+});
+
+const mapDispatchToProps = dispatch => ({
+  table_update(query) {
+    dispatch(aabActionCreators.table_update(query));
+  },
+  current_update(data) {
+    dispatch(aabActionCreators.current_update(data));
+  },
+  createForm_update(data) {
+    dispatch(aabActionCreators.createForm_update(data));
+  }
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Form.create()(CreateForm));

@@ -158,13 +158,16 @@ class AAB extends Component {
   };
 
   handleUpdateModalVisible = record => {
-    // this.setState({
-    //   updateModalVisible: !!flag,
-    //   stepFormValues: record || {}
-    // });
     const { current_update, updateForm_update } = this.props;
     current_update(record);
     updateForm_update({
+      visible: true
+    });
+  };
+
+  handleModalVisible = () => {
+    const { createForm_update } = this.props;
+    createForm_update({
       visible: true
     });
   };
@@ -190,7 +193,7 @@ class AAB extends Component {
               <Button
                 icon="plus"
                 type="primary"
-                onClick={() => this.handleModalVisible(true)}
+                onClick={this.handleModalVisible}
               >
                 新建
               </Button>
@@ -236,6 +239,9 @@ const mapDispatchToProps = dispatch => ({
   },
   updateForm_update(data) {
     dispatch(aabActionCreators.updateForm_update(data));
+  },
+  createForm_update(data) {
+    dispatch(aabActionCreators.createForm_update(data));
   }
 });
 

@@ -6,7 +6,7 @@ class PageHeaderWrapper extends Component {
   render() {
     const { children, ...restProps } = this.props;
     return (
-      <div style={{ margin: '-16px -16px 0' }}>
+      <div style={{ margin: '-24px -24px 0' }}>
         <div>
           <PageHeader {...restProps} />
         </div>

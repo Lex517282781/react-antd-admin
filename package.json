@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@antv/data-set": "^0.9.6",
     "animate.css": "^3.7.0",
     "antd": "^3.7.3",
     "autoprefixer": "7.1.6",
@@ -47,6 +48,7 @@
     "react-dev-utils": "^5.0.1",
     "react-document-title": "^2.0.3",
     "react-dom": "^16.2.0",
+    "react-fittext": "^1.0.0",
     "react-redux": "^5.0.7",
     "react-router-dom": "^4.3.1",
     "redux": "^4.0.0",

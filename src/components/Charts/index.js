@@ -4,6 +4,7 @@ import MiniArea from './MiniArea';
 import MiniBar from './MiniBar';
 import MiniProgress from './MiniProgress';
 import Bar from './Bar';
+import Pie from './Pie';
 
 const Charts = {
   ChartCard,
@@ -11,7 +12,8 @@ const Charts = {
   MiniArea,
   MiniBar,
   MiniProgress,
-  Bar
+  Bar,
+  Pie
 };
 
 export {
@@ -21,5 +23,6 @@ export {
   MiniArea,
   MiniBar,
   MiniProgress,
-  Bar
+  Bar,
+  Pie
 };

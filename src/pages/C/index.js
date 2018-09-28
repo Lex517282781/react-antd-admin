@@ -1,22 +1,10 @@
-import React, { Component } from 'react'; // , Fragment
-import {
-  Row,
-  Col
-  // Icon,
-  // Card,
-  // Tabs,
-  // Table,
-  // Radio,
-  // DatePicker,
-  // Tooltip,
-  // Menu,
-  // Dropdown
-} from 'antd';
+import React, { Component } from 'react';
+import { Row, Col } from 'antd';
 import TotalityPreview from './subs/TotalityPreview';
 import TrendPreview from './subs/TrendPreview';
 import RecommendPreview from './subs/RecommendPreview';
 import ProportionPreview from './subs/ProportionPreview';
-import InvertPreview from './subs/InvertPreview';
+// import InvertPreview from './subs/InvertPreview';
 import styles from './style.less';
 
 class C extends Component {
@@ -33,7 +21,7 @@ class C extends Component {
             <ProportionPreview />
           </Col>
         </Row>
-        <InvertPreview />
+        {/* <InvertPreview /> */}
       </div>
     );
   }

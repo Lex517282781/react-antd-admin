@@ -84,7 +84,7 @@ class App extends Component {
         <SideBar />
         <Layout>
           <HeadBar />
-          <Content style={{ margin: '16px 16px 0' }}>
+          <Content style={{ margin: '24px 24px 0' }}>
             <Routes />
           </Content>
           <Footer />

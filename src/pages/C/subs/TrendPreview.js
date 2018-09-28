@@ -1,17 +1,5 @@
 import React, { Component } from 'react'; // , Fragment
-import {
-  Row,
-  Col,
-  Icon,
-  Card,
-  Tabs,
-  Table,
-  Radio,
-  DatePicker,
-  Tooltip,
-  Menu,
-  Dropdown
-} from 'antd';
+import { Row, Col, Card, Tabs, DatePicker } from 'antd';
 import { Bar } from '@/components/Charts';
 import numeral from 'numeral';
 import styles from './TrendPreview.less';

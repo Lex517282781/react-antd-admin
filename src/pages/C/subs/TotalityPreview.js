@@ -12,9 +12,80 @@ import numeral from 'numeral';
 import { Yuan } from '@/utils';
 import styles from './TotalityPreview.less';
 
+const data = [
+  {
+    x: '2018-09-28',
+    y: 7
+  },
+  {
+    x: '2018-09-29',
+    y: 5
+  },
+  {
+    x: '2018-09-30',
+    y: 4
+  },
+  {
+    x: '2018-10-01',
+    y: 2
+  },
+  {
+    x: '2018-10-02',
+    y: 4
+  },
+  {
+    x: '2018-10-03',
+    y: 7
+  },
+  {
+    x: '2018-10-04',
+    y: 5
+  },
+  {
+    x: '2018-10-05',
+    y: 6
+  },
+  {
+    x: '2018-10-06',
+    y: 5
+  },
+  {
+    x: '2018-10-07',
+    y: 9
+  },
+  {
+    x: '2018-10-08',
+    y: 6
+  },
+  {
+    x: '2018-10-09',
+    y: 3
+  },
+  {
+    x: '2018-10-10',
+    y: 1
+  },
+  {
+    x: '2018-10-11',
+    y: 5
+  },
+  {
+    x: '2018-10-12',
+    y: 3
+  },
+  {
+    x: '2018-10-13',
+    y: 6
+  },
+  {
+    x: '2018-10-14',
+    y: 5
+  }
+];
+
 class TotalityPreview extends Component {
   render() {
-    const { loading = false, visitData = [] } = this.props;
+    const { loading = false, visitData = data } = this.props;
 
     const topColResponsiveProps = {
       xs: 24,

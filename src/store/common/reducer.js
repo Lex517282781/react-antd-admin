@@ -10,7 +10,9 @@ const defaultState = {
   },
   user: {
     loading: false,
-    data: null
+    data: {
+      status: undefined
+    }
   }
 };
 
@@ -59,15 +61,21 @@ const getStateByUserSuccess = (state, data) => ({
   ...state,
   user: {
     ...state.user,
-    data,
+    data: {
+      ...data,
+      status: 'ok'
+    },
     loading: false
   }
 });
 
-const getStateByUserFailure = (state, menu) => ({
+const getStateByUserFailure = state => ({
   ...state,
   user: {
     ...state.user,
+    data: {
+      status: 'error'
+    },
     loading: false
   }
 });

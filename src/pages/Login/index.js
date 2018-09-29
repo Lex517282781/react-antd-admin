@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { actionCreators as commonActionCreators } from '@/store/common';
 import { Checkbox, Alert, Icon } from 'antd';
 import Login from '@/components/Login';
 import styles from './style.less';
@@ -11,6 +13,13 @@ class LoginPage extends Component {
     type: 'account',
     autoLogin: true
   };
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.user.data.status === this.props.user.data.status) return;
+    if (nextProps.user.data.status === 'ok') {
+      nextProps.history.replace('/app');
+    }
+  }
 
   onTabChange = type => {
     this.setState({ type });
@@ -34,15 +43,11 @@ class LoginPage extends Component {
     });
 
   handleSubmit = (err, values) => {
-    const { type } = this.state;
+    // const { type } = this.state;
     if (!err) {
-      const { dispatch } = this.props;
-      dispatch({
-        type: 'login/login',
-        payload: {
-          ...values,
-          type
-        }
+      const { user_login } = this.props;
+      user_login({
+        values
       });
     }
   };
@@ -63,7 +68,7 @@ class LoginPage extends Component {
   );
 
   render() {
-    const { login = false, submitting } = this.props;
+    const { user } = this.props;
     const { type, autoLogin } = this.state;
     return (
       <div className={styles.main}>
@@ -76,9 +81,9 @@ class LoginPage extends Component {
           }}
         >
           <Tab key="account" tab="账户密码登录">
-            {login.status === 'error' &&
-              login.type === 'account' &&
-              !submitting &&
+            {user.data.status === 'error' &&
+              type === 'account' &&
+              !user.loading &&
               this.renderMessage('账户或密码错误（admin/888888）')}
             <UserName name="userName" placeholder="admin/user" />
             <Password
@@ -90,9 +95,9 @@ class LoginPage extends Component {
             />
           </Tab>
           <Tab key="mobile" tab="手机号登录">
-            {login.status === 'error' &&
-              login.type === 'mobile' &&
-              !submitting &&
+            {user.data.status === 'error' &&
+              type === 'mobile' &&
+              !user.loading &&
               this.renderMessage('验证码错误')}
             <Mobile name="mobile" />
             <Captcha
@@ -109,7 +114,7 @@ class LoginPage extends Component {
               忘记密码
             </a>
           </div>
-          <Submit loading={submitting}>登录</Submit>
+          <Submit loading={user.loading}>登录</Submit>
           <div className={styles.other}>
             其他登录方式
             <Icon
@@ -137,4 +142,17 @@ class LoginPage extends Component {
   }
 }
 
-export default LoginPage;
+const mapStateToProps = state => ({
+  user: state.common.user
+});
+
+const mapDispatchToProps = dispatch => ({
+  user_login(data) {
+    dispatch(commonActionCreators.user_login(data));
+  }
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(LoginPage);

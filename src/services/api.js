@@ -10,6 +10,14 @@ const Service = {};
   {
     fn: 'updateTableCell',
     url: '/updateTableCell.do'
+  },
+  {
+    fn: 'login',
+    url: '/login.do'
+  },
+  {
+    fn: 'logout',
+    url: '/logout.do'
   }
 ].forEach(({ fn, url }) => {
   Service[fn] = ({ params, waitting, error } = {}) =>

@@ -7,6 +7,10 @@ const defaultState = {
   },
   device: {
     isMobile: false
+  },
+  user: {
+    loading: false,
+    data: null
   }
 };
 
@@ -43,6 +47,31 @@ const getStateByDeviceUpdate = (state, device) => ({
   }
 });
 
+const getStateByUserRequest = state => ({
+  ...state,
+  user: {
+    ...state.user,
+    loading: true
+  }
+});
+
+const getStateByUserSuccess = (state, data) => ({
+  ...state,
+  user: {
+    ...state.user,
+    data,
+    loading: false
+  }
+});
+
+const getStateByUserFailure = (state, menu) => ({
+  ...state,
+  user: {
+    ...state.user,
+    loading: false
+  }
+});
+
 export default (state = defaultState, action) => {
   switch (action.type) {
     case types.MENU_REQUEST:
@@ -53,6 +82,15 @@ export default (state = defaultState, action) => {
       return getStateByMenuFailure(state);
     case types.DEVICE_UPDATE:
       return getStateByDeviceUpdate(state, action.device);
+    case types.USER_LOGIN_REQUEST:
+    case types.USER_LOGOUT_REQUEST:
+      return getStateByUserRequest(state);
+    case types.USER_LOGIN_SUCCESS:
+    case types.USER_LOGOUT_SUCCESS:
+      return getStateByUserSuccess(state, action.data);
+    case types.USER_LOGIN_FAILURE:
+    case types.USER_LOGOUT_FAILURE:
+      return getStateByUserFailure(state);
     default:
       return state;
   }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Routes from '@/routes';
+import AppRouters from '@/routes/AppRouters';
 import { Layout } from 'antd';
 import { connect } from 'react-redux';
 import { actionCreators as commonActionCreators } from './store/common';
@@ -85,7 +85,7 @@ class App extends Component {
         <Layout>
           <HeadBar />
           <Content style={{ margin: '24px 24px 0' }}>
-            <Routes />
+            <AppRouters />
           </Content>
           <Footer />
         </Layout>

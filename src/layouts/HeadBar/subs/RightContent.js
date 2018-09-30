@@ -1,23 +1,27 @@
-import React, { Component } from 'react';
-import { Menu, Dropdown, Tag, Avatar, Icon, Tooltip } from 'antd';
-import NoticeIcon from '@/components/NoticeIcon';
-import moment from 'moment';
-import { groupBy } from 'lodash';
-import styles from './RightContent.less';
+import React, { Component } from 'react'
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux'
+import { actionCreators as commonActionCreators } from '@/store/common'
+import { Menu, Dropdown, Tag, Avatar, Icon, Tooltip } from 'antd'
+import NoticeIcon from '@/components/NoticeIcon'
+import moment from 'moment'
+import { groupBy } from 'lodash'
+import store from 'store'
+import styles from './RightContent.less'
 
 class RightContent extends Component {
   getNoticeData() {
-    const { notices = [] } = this.props;
+    const { notices = [] } = this.props
     if (notices.length === 0) {
-      return {};
+      return {}
     }
     const newNotices = notices.map(notice => {
-      const newNotice = { ...notice };
+      const newNotice = { ...notice }
       if (newNotice.datetime) {
-        newNotice.datetime = moment(notice.datetime).fromNow();
+        newNotice.datetime = moment(notice.datetime).fromNow()
       }
       if (newNotice.id) {
-        newNotice.key = newNotice.id;
+        newNotice.key = newNotice.id
       }
       if (newNotice.extra && newNotice.status) {
         const color = {
@@ -25,24 +29,32 @@ class RightContent extends Component {
           processing: 'blue',
           urgent: 'red',
           doing: 'gold'
-        }[newNotice.status];
+        }[newNotice.status]
         newNotice.extra = (
           <Tag color={color} style={{ marginRight: 0 }}>
             {newNotice.extra}
           </Tag>
-        );
+        )
       }
-      return newNotice;
-    });
-    return groupBy(newNotices, 'type');
+      return newNotice
+    })
+    return groupBy(newNotices, 'type')
   }
 
   handleMenuClick = ({ key }) => {
-    console.log(key, 'key');
-  };
+    console.log(key, 'key')
+    if (key === 'logout') {
+      console.log('logout')
+      store.remove('react_antd_admin_user')
+      this.props.user_logout({
+        status: 'error'
+      })
+      this.props.history.replace('/user/login');
+    }
+  }
 
   render() {
-    const noticeData = this.getNoticeData();
+    const noticeData = this.getNoticeData()
 
     const menu = (
       <Menu
@@ -68,7 +80,7 @@ class RightContent extends Component {
           退出登录
         </Menu.Item>
       </Menu>
-    );
+    )
 
     return (
       <div className={styles.rightContent}>
@@ -86,7 +98,7 @@ class RightContent extends Component {
           className={styles.action}
           count={10}
           onItemClick={(item, tabProps) => {
-            console.log(item, tabProps); // eslint-disable-line
+            console.log(item, tabProps) // eslint-disable-line
           }}
           onNoticeClear={this.handleNoticeClear}
           onNoticeVisibleChange={this.handleNoticeVisibleChange}
@@ -125,8 +137,21 @@ class RightContent extends Component {
           </span>
         </Dropdown>
       </div>
-    );
+    )
   }
 }
 
-export default RightContent;
+const mapStateToProps = state => ({
+  user: state.common.user.data
+})
+
+const mapDispatchToProps = dispatch => ({
+  user_logout(data) {
+    dispatch(commonActionCreators.user_logout(data))
+  }
+})
+
+export default withRouter(connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(RightContent))

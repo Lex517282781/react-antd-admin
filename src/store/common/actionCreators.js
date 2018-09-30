@@ -1,7 +1,6 @@
 import * as types from './types';
 import Service from '@/services/api';
 import { message } from 'antd';
-import menu from '@/config/menu';
 
 export const device_update = device => ({
   type: types.DEVICE_UPDATE,
@@ -42,7 +41,7 @@ export const user_logout_request = () => ({
 });
 
 export const user_logout_success = data => ({
-  type: types.USER_LOGIN_SUCCESS,
+  type: types.USER_LOGOUT_SUCCESS,
   data
 });
 
@@ -53,8 +52,8 @@ export const user_logout_failure = () => ({
 export const user_logout = () => {
   return async dispatch => {
     dispatch(user_logout_request());
-    let res = await menu;
-    if (!res) return dispatch(user_logout_failure());
-    dispatch(user_logout_success(res));
+    // let res = await menu;
+    // if (!res) return dispatch(user_logout_failure());
+    dispatch(user_logout_success());
   };
 };

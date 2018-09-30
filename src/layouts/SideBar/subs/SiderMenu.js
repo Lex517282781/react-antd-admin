@@ -12,7 +12,7 @@ const { Sider } = Layout
 
 class SideBar extends Component {
   componentDidMount() {
-    const { location, sidebar_update, menu } = this.props;
+    const { location, sidebar_update, menu = [] } = this.props
     const path = location.pathname.substr(
       location.pathname.lastIndexOf('/') + 1
     )
@@ -22,8 +22,7 @@ class SideBar extends Component {
     })
   }
 
-  componentWillReceiveProps() {
-  }
+  componentWillReceiveProps() {}
 
   handleRouter = ({ key }) => {
     const { history, location } = this.props
@@ -125,7 +124,7 @@ class SideBar extends Component {
   }
 
   render() {
-    const { menu, location, collapsed, openKeys } = this.props
+    const { menu = [], location, collapsed, openKeys } = this.props
 
     const key = location.pathname.substr(location.pathname.lastIndexOf('/') + 1)
 

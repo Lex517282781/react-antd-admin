@@ -1,4 +1,4 @@
-import * as types from './types';
+import * as types from './types'
 
 const defaultState = {
   device: {
@@ -10,7 +10,7 @@ const defaultState = {
       status: undefined
     }
   }
-};
+}
 
 const getStateByDeviceUpdate = (state, device) => ({
   ...state,
@@ -18,7 +18,7 @@ const getStateByDeviceUpdate = (state, device) => ({
     ...state.device,
     ...device
   }
-});
+})
 
 const getStateByUserRequest = state => ({
   ...state,
@@ -26,9 +26,9 @@ const getStateByUserRequest = state => ({
     ...state.user,
     loading: true
   }
-});
+})
 
-const getStateByUserSuccess = (state, data) => ({
+const getStateByUserLoginSuccess = (state, data) => ({
   ...state,
   user: {
     ...state.user,
@@ -38,7 +38,18 @@ const getStateByUserSuccess = (state, data) => ({
     },
     loading: false
   }
-});
+})
+
+const getStateByUserLogoutSuccess = (state, data) => ({
+  ...state,
+  user: {
+    ...state.user,
+    data: {
+      status: undefined
+    },
+    loading: false
+  }
+})
 
 const getStateByUserFailure = state => ({
   ...state,
@@ -49,22 +60,23 @@ const getStateByUserFailure = state => ({
     },
     loading: false
   }
-});
+})
 
 export default (state = defaultState, action) => {
   switch (action.type) {
     case types.DEVICE_UPDATE:
-      return getStateByDeviceUpdate(state, action.device);
+      return getStateByDeviceUpdate(state, action.device)
     case types.USER_LOGIN_REQUEST:
     case types.USER_LOGOUT_REQUEST:
-      return getStateByUserRequest(state);
+      return getStateByUserRequest(state)
     case types.USER_LOGIN_SUCCESS:
+      return getStateByUserLoginSuccess(state, action.data)
     case types.USER_LOGOUT_SUCCESS:
-      return getStateByUserSuccess(state, action.data);
+      return getStateByUserLogoutSuccess(state, action.data)
     case types.USER_LOGIN_FAILURE:
     case types.USER_LOGOUT_FAILURE:
-      return getStateByUserFailure(state);
+      return getStateByUserFailure(state)
     default:
-      return state;
+      return state
   }
-};
+}

@@ -16,7 +16,6 @@ class LoginPage extends Component {
   };
 
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps.user.data.status, this.props.user.data.status, 12)
     if (nextProps.user.data.status === this.props.user.data.status) return;
     if (nextProps.user.data.status === 'ok') {
       store.set('react_antd_admin_user', nextProps.user.data);

@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { actionCreators as commonActionCreators } from '@/store/common';
 import { Checkbox, Alert, Icon } from 'antd';
 import Login from '@/components/Login';
+import store from 'store';
 import styles from './style.less';
 
 const { Tab, UserName, Password, Mobile, Captcha, Submit } = Login;
@@ -17,6 +18,7 @@ class LoginPage extends Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.user.data.status === this.props.user.data.status) return;
     if (nextProps.user.data.status === 'ok') {
+      store.set('react_antd_admin_user', nextProps.user.data);
       nextProps.history.replace('/app');
     }
   }

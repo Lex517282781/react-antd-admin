@@ -1,65 +1,61 @@
-import React, { Component } from 'react';
-import { withRouter, Link } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { actionCreators as sidebarActionCreators } from '../store';
-import { Menu, Icon, Layout } from 'antd';
-import zhMessages from '@/locales/zh-CN';
-import logo from '@/assets/imgs/logo.svg';
-import styles from './SiderMenu.less';
-const SubMenu = Menu.SubMenu;
-const MenuItemGroup = Menu.ItemGroup;
-const { Sider } = Layout;
+import React, { Component } from 'react'
+import { withRouter, Link } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { actionCreators as sidebarActionCreators } from '../store'
+import { Menu, Icon, Layout } from 'antd'
+import zhMessages from '@/locales/zh-CN'
+import logo from '@/assets/imgs/logo.svg'
+import styles from './SiderMenu.less'
+const SubMenu = Menu.SubMenu
+const MenuItemGroup = Menu.ItemGroup
+const { Sider } = Layout
 
 class SideBar extends Component {
-  componentDidMount() {}
-
-  componentWillReceiveProps(nextProps) {
-    const { location, menu: nextMenu } = nextProps;
-    const { menu: prevMenu } = this.props;
+  componentDidMount() {
+    const { location, sidebar_update, menu } = this.props;
     const path = location.pathname.substr(
       location.pathname.lastIndexOf('/') + 1
-    );
-    if (nextMenu.data[0]) {
-      if (nextMenu !== prevMenu) {
-        const currentKeyItem = this.getCurrentKey(nextMenu.data, path) || {};
-        nextProps.sidebar_update({
-          openKeys: currentKeyItem.openKeys || []
-        });
-      }
-    }
+    )
+    const currentKeyItem = this.getCurrentKey(menu, path) || {}
+    sidebar_update({
+      openKeys: currentKeyItem.openKeys || []
+    })
+  }
+
+  componentWillReceiveProps() {
   }
 
   handleRouter = ({ key }) => {
-    const { history, location } = this.props;
-    const currentKey = location.pathname.replace('/app/', '');
-    if (currentKey === key) return;
-    history.push(key);
-  };
+    const { history, location } = this.props
+    const currentKey = location.pathname.replace('/app/', '')
+    if (currentKey === key) return
+    history.push(key)
+  }
 
   onOpenChange = openKeys => {
-    const { sidebar, menu, sidebar_update } = this.props;
-    if (sidebar.collapsed) return; // 在菜单收缩的时候 菜单选择以handleSelect为准 不执行以下内容
-    const rootSubmenuKeys = menu.data.map(item => item.key);
+    const { sidebar, menu, sidebar_update } = this.props
+    if (sidebar.collapsed) return // 在菜单收缩的时候 菜单选择以handleSelect为准 不执行以下内容
+    const rootSubmenuKeys = menu.map(item => item.key)
     const latestOpenKey = openKeys.find(
       key => sidebar.openKeys.indexOf(key) === -1
-    );
+    )
     if (rootSubmenuKeys.indexOf(latestOpenKey) === -1) {
       sidebar_update({
         openKeys
-      });
+      })
     } else {
       sidebar_update({
         openKeys: latestOpenKey ? [latestOpenKey] : []
-      });
+      })
     }
-  };
+  }
 
   handleSelect = ({ item }) => {
-    const { sidebar_update } = this.props;
+    const { sidebar_update } = this.props
     sidebar_update({
       openKeys: item.props.openKeys
-    });
-  };
+    })
+  }
 
   renderMenuItem = ({ text, icon, key }) => {
     return (
@@ -71,14 +67,14 @@ class SideBar extends Component {
           {key}
         </span>
       </Menu.Item>
-    );
-  };
+    )
+  }
 
   renderGroupMenu = ({ key, text, group }) => (
     <MenuItemGroup key={key} title={zhMessages[`menu.${key}`]}>
       {group.map(gitem => this.renderMenuItem(gitem))}
     </MenuItemGroup>
-  );
+  )
 
   renderSubMenu = ({ text, icon, key, children }) => (
     <SubMenu
@@ -95,45 +91,43 @@ class SideBar extends Component {
     >
       {children.map(child => {
         if (child.children && child.children.length) {
-          return this.renderSubMenu(child);
+          return this.renderSubMenu(child)
         } else if (child.group) {
-          return this.renderGroupMenu(child);
+          return this.renderGroupMenu(child)
         } else {
-          return this.renderMenuItem(child);
+          return this.renderMenuItem(child)
         }
       })}
     </SubMenu>
-  );
+  )
 
   getCurrentKey = (menu, key) => {
-    let currentKey = null;
+    let currentKey = null
     const getKey = (menu, key) => {
       menu.forEach(item => {
-        if (item.key === key) return (currentKey = item);
+        if (item.key === key) return (currentKey = item)
         if (item.children && item.children.length) {
-          getKey(item.children, key);
+          getKey(item.children, key)
         } else if (item.group && item.group.length) {
-          getKey(item.group, key);
+          getKey(item.group, key)
         }
-      });
-    };
-    getKey(menu, key);
-    return currentKey;
-  };
+      })
+    }
+    getKey(menu, key)
+    return currentKey
+  }
 
   handleCollapse = collapsed => {
-    const { sidebar_update } = this.props;
+    const { sidebar_update } = this.props
     sidebar_update({
       collapsed
-    });
-  };
+    })
+  }
 
   render() {
-    const { menu, location, collapsed, openKeys } = this.props;
+    const { menu, location, collapsed, openKeys } = this.props
 
-    const key = location.pathname.substr(
-      location.pathname.lastIndexOf('/') + 1
-    );
+    const key = location.pathname.substr(location.pathname.lastIndexOf('/') + 1)
 
     // 为了解决menu收缩时二级以下菜单不跟随的问题 menu的key值单独设置
     const keysProps = collapsed
@@ -141,7 +135,7 @@ class SideBar extends Component {
       : {
           openKeys: openKeys || [],
           selectedKeys: [key]
-        };
+        }
 
     return (
       <Sider
@@ -168,7 +162,7 @@ class SideBar extends Component {
           onSelect={this.handleSelect}
           {...keysProps}
         >
-          {menu.data.map(
+          {menu.map(
             menuItem =>
               menuItem.children && menuItem.children.length
                 ? this.renderSubMenu(menuItem)
@@ -176,24 +170,24 @@ class SideBar extends Component {
           )}
         </Menu>
       </Sider>
-    );
+    )
   }
 }
 
 const mapStateToProps = state => ({
-  menu: state.common.menu,
+  menu: state.common.user.data.children,
   sidebar: state.sidebar
-});
+})
 
 const mapDispatchToProps = dispatch => ({
   sidebar_update(data) {
-    dispatch(sidebarActionCreators.sidebar_update(data));
+    dispatch(sidebarActionCreators.sidebar_update(data))
   }
-});
+})
 
 export default withRouter(
   connect(
     mapStateToProps,
     mapDispatchToProps
   )(SideBar)
-);
+)

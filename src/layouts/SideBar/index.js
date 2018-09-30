@@ -48,7 +48,6 @@ class SideBar extends Component {
 }
 
 const mapStateToProps = state => ({
-  menu: state.common.menu,
   sidebar: state.sidebar,
   isMobile: state.common.device.isMobile
 });

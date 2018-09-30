@@ -39,7 +39,7 @@ class PageHeader extends Component {
       location.pathname.lastIndexOf('/') + 1
     );
 
-    const routerMap = getBreadcrumbNameMap(menu.data);
+    const routerMap = getBreadcrumbNameMap(menu);
 
     const currentRouterPath = routerMap[key].openKeys.concat(key);
 
@@ -96,7 +96,7 @@ class PageHeader extends Component {
 }
 
 const mapStateToProps = state => ({
-  menu: state.common.menu,
+  menu: state.common.user.data.children,
   headbar: state.headbar,
   collapsed: state.sidebar.collapsed
 });

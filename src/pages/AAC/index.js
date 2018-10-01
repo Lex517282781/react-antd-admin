@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
-import { actionCreators as aabActionCreators } from './store';
+import { actionCreators as aacActionCreators } from './store';
 import moment from 'moment';
 import { Card, Icon, Button, Dropdown, Menu, Badge, Divider } from 'antd';
 import StandardTable from '@/components/StandardTable';
@@ -18,8 +18,7 @@ const getValue = obj =>
 const statusMap = ['default', 'processing', 'success', 'error'];
 const status = ['关闭', '运行中', '已上线', '异常'];
 
-/* eslint react/no-multi-comp:0 */
-class AAB extends Component {
+class B extends Component {
   state = {
     updateModalVisible: false,
     expandForm: false,
@@ -155,8 +154,29 @@ class AAB extends Component {
     });
   };
 
+  handleTabChange = key => {
+    const { tabActiveKey_update } = this.props;
+    tabActiveKey_update(key);
+  };
+
   render() {
-    const { table, current, selectedRows } = this.props;
+    const tabList = [
+      {
+        key: '1',
+        tab: '状态1'
+      },
+      {
+        key: '2',
+        tab: '状态2'
+      },
+      {
+        key: '3',
+        tab: '状态3'
+      }
+    ];
+
+    const { table, current, selectedRows, tabActiveKey } = this.props;
+
     const menu = (
       <Menu onClick={this.handleMenuClick} selectedKeys={[]}>
         <Menu.Item key="remove">删除</Menu.Item>
@@ -165,7 +185,13 @@ class AAB extends Component {
     );
 
     return (
-      <PageHeaderWrapper title="查询表格">
+      <PageHeaderWrapper
+        title="搜索列表"
+        // content={mainSearch}
+        tabList={tabList}
+        tabActiveKey={tabActiveKey}
+        onTabChange={this.handleTabChange}
+      >
         <Card bordered={false}>
           <div className={styles.tableList}>
             <div className={styles.tableListForm}>
@@ -208,30 +234,34 @@ class AAB extends Component {
 }
 
 const mapStateToProps = state => ({
-  table: state.aab.table,
-  current: state.aab.current,
-  selectedRows: state.aab.selectedRows
+  table: state.aac.table,
+  current: state.aac.current,
+  selectedRows: state.aac.selectedRows,
+  tabActiveKey: state.aac.tabActiveKey
 });
 
 const mapDispatchToProps = dispatch => ({
   table_update(query) {
-    dispatch(aabActionCreators.table_update(query));
+    dispatch(aacActionCreators.table_update(query));
   },
   current_update(data) {
-    dispatch(aabActionCreators.current_update(data));
+    dispatch(aacActionCreators.current_update(data));
   },
   updateForm_update(data) {
-    dispatch(aabActionCreators.updateForm_update(data));
+    dispatch(aacActionCreators.updateForm_update(data));
   },
   createForm_update(data) {
-    dispatch(aabActionCreators.createForm_update(data));
+    dispatch(aacActionCreators.createForm_update(data));
   },
   slectedRows_update(data) {
-    dispatch(aabActionCreators.slectedRows_update(data));
+    dispatch(aacActionCreators.slectedRows_update(data));
+  },
+  tabActiveKey_update(data) {
+    dispatch(aacActionCreators.tabActiveKey_update(data));
   }
 });
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(AAB);
+)(B);

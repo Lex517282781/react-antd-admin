@@ -9,6 +9,13 @@ import styles from './style.less';
 const { TabPane } = Tabs;
 
 class PageHeader extends Component {
+  onChange = key => {
+    const { onTabChange } = this.props;
+    if (onTabChange) {
+      onTabChange(key);
+    }
+  };
+
   render() {
     const {
       title,
@@ -41,7 +48,7 @@ class PageHeader extends Component {
 
     const routerMap = getBreadcrumbNameMap(menu);
 
-    const currentRouterPath = routerMap[key].openKeys.concat(key);
+    const currentRouterPath = (routerMap[key].openKeys || []).concat(key);
 
     return (
       <div className={clsString}>

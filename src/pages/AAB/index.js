@@ -96,7 +96,6 @@ class AAB extends Component {
 
   componentDidMount() {
     const { table_update } = this.props;
-    console.log(1);
     table_update({
       page: 1
     });

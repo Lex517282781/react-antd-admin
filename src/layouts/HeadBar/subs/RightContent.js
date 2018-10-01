@@ -42,9 +42,7 @@ class RightContent extends Component {
   }
 
   handleMenuClick = ({ key }) => {
-    console.log(key, 'key')
     if (key === 'logout') {
-      console.log('logout')
       store.remove('react_antd_admin_user')
       this.props.user_logout({
         status: 'error'

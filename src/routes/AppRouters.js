@@ -5,6 +5,7 @@ import { asyncComponent } from '@/utils';
 const AAAA = asyncComponent(() => import('@/pages/AAAA'));
 const AAB = asyncComponent(() => import('@/pages/AAB'));
 const AAC = asyncComponent(() => import('@/pages/AAC'));
+const AB = asyncComponent(() => import('@/pages/AB'));
 const C = asyncComponent(() => import('@/pages/C'));
 
 class AppRouters extends Component {
@@ -15,6 +16,7 @@ class AppRouters extends Component {
         <Route exact path="/app/aaaa" component={AAAA} />
         <Route exact path="/app/aab" component={AAB} />
         <Route exact path="/app/aac" component={AAC} />
+        <Route exact path="/app/ab" component={AB} />
         <Route exact path="/app/c" component={C} />
         {/* <Route render={() => <Redirect to="/app/c" />} /> */}
       </Switch>

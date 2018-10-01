@@ -20,9 +20,6 @@ const status = ['关闭', '运行中', '已上线', '异常'];
 
 class B extends Component {
   state = {
-    updateModalVisible: false,
-    expandForm: false,
-    selectedRows: [],
     formValues: {},
     stepFormValues: {}
   };
@@ -89,9 +86,15 @@ class B extends Component {
   ];
 
   componentDidMount() {
-    const { table_update } = this.props;
+    const { table_update, tabActiveKey_update } = this.props;
+    let status = '1',
+      page = 1,
+      pageSize = 10;
+    tabActiveKey_update(status);
     table_update({
-      page: 1
+      page,
+      pageSize,
+      status
     });
   }
 
@@ -154,9 +157,16 @@ class B extends Component {
     });
   };
 
-  handleTabChange = key => {
-    const { tabActiveKey_update } = this.props;
-    tabActiveKey_update(key);
+  handleTabChange = status => {
+    const { table_update, tabActiveKey_update } = this.props;
+    tabActiveKey_update(status);
+    let page = 1,
+      pageSize = 10;
+    table_update({
+      page,
+      pageSize,
+      status
+    });
   };
 
   render() {

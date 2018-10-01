@@ -24,7 +24,7 @@ const defaultState = {
     loading: false
   },
   selectedRows: [],
-  tabActiveKey: '1'
+  tabActiveKey: ''
 };
 
 const getStateByTableRequest = state => ({

@@ -8,6 +8,7 @@ const AAB = asyncComponent(() => import('@/pages/AAB'));
 const AAC = asyncComponent(() => import('@/pages/AAC'));
 const AAD = asyncComponent(() => import('@/pages/AAD'));
 const AB = asyncComponent(() => import('@/pages/AB'));
+const AC = asyncComponent(() => import('@/pages/AC'));
 const BA = asyncComponent(() => import('@/pages/BA'));
 const C = asyncComponent(() => import('@/pages/C'));
 
@@ -22,6 +23,7 @@ class AppRouters extends Component {
         <Route exact path="/app/aac" component={AAC} />
         <Route exact path="/app/aad" component={AAD} />
         <Route exact path="/app/ab" component={AB} />
+        <Route exact path="/app/ac" component={AC} />
         <Route path="/app/ba/:id" component={BA} />
         <Route exact path="/app/c" component={C} />
         <Route exact path="/app/baa" component={C} />

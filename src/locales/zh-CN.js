@@ -8,7 +8,7 @@ export default {
   'menu.aac': '分类查询表格',
   'menu.aad': '标准列表表格',
   'menu.ab': '高级表单',
-  'menu.ac': '二级0103',
+  'menu.ac': '基础表单',
   'menu.b': '分组类目演示',
   'menu.ba': '二级0201',
   'menu.baa': '二级010201',

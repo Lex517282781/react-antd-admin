@@ -25,7 +25,6 @@ class SideBar extends Component {
   componentWillReceiveProps() {}
 
   handleRouter = ({ key, item, keyPath }) => {
-    console.log(item, keyPath);
     const { history, location } = this.props;
     const currentKey = location.pathname.replace('/app/', '');
     if (currentKey === key) return;
@@ -126,38 +125,16 @@ class SideBar extends Component {
     });
   };
 
-  getFormatMenu(menu) {
-    // 给每个菜单对象添加openKeys 为路由展开收缩需要使用
-    const newMenu = JSON.parse(JSON.stringify(menu));
-    const setMenu = item => {
-      item.children.forEach(citem => {
-        citem.openKeys = [...(item.openKeys || []), item.key];
-        if (citem.children && citem.children[0]) {
-          setMenu(citem);
-        }
-        if (citem.group && citem.group[0]) {
-          citem.group.forEach(cgitem => {
-            cgitem.openKeys = [...(citem.openKeys || []), citem.key];
-          });
-        }
-      });
-    };
-
-    menu.forEach(mitem => {
-      if (mitem.children && mitem.children[0]) {
-        setMenu(mitem);
-      }
-    });
-
-    return newMenu;
-  }
-
   render() {
     const { menu = [], location, collapsed, openKeys } = this.props;
 
-    const key = location.pathname.substr(
-      location.pathname.lastIndexOf('/') + 1
-    );
+    let key = location.pathname.substr(location.pathname.lastIndexOf('/') + 1);
+
+    const currentKeyItem = this.getCurrentKey(menu, key) || {};
+    if (currentKeyItem.type === 2) {
+      key =
+        currentKeyItem.openKeys[currentKeyItem.openKeys.length - 1] + '/' + key;
+    }
 
     // 为了解决menu收缩时二级以下菜单不跟随的问题 menu的key值单独设置
     const keysProps = collapsed
@@ -166,8 +143,6 @@ class SideBar extends Component {
           openKeys: openKeys || [],
           selectedKeys: [key]
         };
-
-    const newMenu = this.getFormatMenu(menu);
 
     return (
       <Sider
@@ -194,7 +169,7 @@ class SideBar extends Component {
           onSelect={this.handleSelect}
           {...keysProps}
         >
-          {newMenu.map(
+          {menu.map(
             menuItem =>
               menuItem.children && menuItem.children.length
                 ? this.renderSubMenu(menuItem)

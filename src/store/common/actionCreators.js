@@ -1,5 +1,6 @@
 import * as types from './types';
 import Service from '@/services/api';
+import { formatMenu } from '@/utils';
 import { message } from 'antd';
 
 export const device_update = device => ({
@@ -32,6 +33,8 @@ export const user_login = params => {
       }
     });
     if (!res) return dispatch(user_login_failure());
+    formatMenu(res.children);
+    console.log(res);
     dispatch(user_login_success(res));
   };
 };

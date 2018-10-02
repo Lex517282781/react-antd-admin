@@ -1,21 +1,21 @@
-import React, { Component } from 'react'
-import AppRouters from '@/routes/AppRouters'
-import { Layout } from 'antd'
-import { connect } from 'react-redux'
-import { actionCreators as commonActionCreators } from './store/common'
-import { actionCreators as sidebarActionCreators } from '@/layouts/SideBar/store'
-import { ContainerQuery } from 'react-container-query'
-import { enquireScreen, unenquireScreen } from 'enquire-js'
-import DocumentTitle from 'react-document-title'
-import SideBar from './layouts/SideBar'
-import HeadBar from './layouts/HeadBar'
-import Footer from './layouts/Footer'
-import classNames from 'classnames'
-import zhMessages from '@/locales/zh-CN'
-import store from 'store'
-import styles from './App.less'
+import React, { Component } from 'react';
+import AppRouters from '@/routes/AppRouters';
+import { Layout } from 'antd';
+import { connect } from 'react-redux';
+import { actionCreators as commonActionCreators } from './store/common';
+import { actionCreators as sidebarActionCreators } from '@/layouts/SideBar/store';
+import { ContainerQuery } from 'react-container-query';
+import { enquireScreen, unenquireScreen } from 'enquire-js';
+import DocumentTitle from 'react-document-title';
+import SideBar from './layouts/SideBar';
+import HeadBar from './layouts/HeadBar';
+import Footer from './layouts/Footer';
+import classNames from 'classnames';
+import zhMessages from '@/locales/zh-CN';
+import store from 'store';
+import styles from './App.less';
 
-const { Content } = Layout
+const { Content } = Layout;
 
 const query = {
   'screen-xs': {
@@ -40,52 +40,52 @@ const query = {
   'screen-xxl': {
     minWidth: 1600
   }
-}
+};
 
 class App extends Component {
   componentWillMount() {
-    const user = store.get('react_antd_admin_user')
+    const user = store.get('react_antd_admin_user');
     if (user && user.status === 'ok') {
-      return this.props.user_login_success(user)
+      return this.props.user_login_success(user);
     }
     this.props.history.replace('/user/login');
   }
 
   componentDidMount() {
-    const { device_update, isMobile } = this.props
+    const { device_update, isMobile } = this.props;
     this.enquireHandler = enquireScreen(mobile => {
       if (isMobile !== mobile) {
         device_update({
           isMobile: mobile
-        })
+        });
       }
-    })
+    });
   }
 
   componentDidUpdate() {
-    const { isMobile, collapsed } = this.props
+    const { isMobile, collapsed } = this.props;
     if (isMobile && !collapsed) {
-      this.handleCollapse(false)
+      this.handleCollapse(false);
     }
   }
 
   componentWillUnmount() {
-    unenquireScreen(this.enquireHandler)
+    unenquireScreen(this.enquireHandler);
   }
 
   handleCollapse = collapsed => {
-    const { sidebar_update } = this.props
+    const { sidebar_update } = this.props;
     sidebar_update({
       collapsed
-    })
-  }
+    });
+  };
 
   render() {
     const {
-      location: { pathname },
-    } = this.props
+      location: { pathname }
+    } = this.props;
 
-    const lastPathname = pathname.slice(pathname.lastIndexOf('/') + 1)
+    const lastPathname = pathname.slice(pathname.lastIndexOf('/') + 1);
 
     const layout = (
       <Layout className={styles.App}>
@@ -98,7 +98,7 @@ class App extends Component {
           <Footer />
         </Layout>
       </Layout>
-    )
+    );
 
     return (
       <DocumentTitle title={zhMessages[`menu.${lastPathname}`] || lastPathname}>
@@ -106,7 +106,7 @@ class App extends Component {
           {params => <div className={classNames(params)}>{layout}</div>}
         </ContainerQuery>
       </DocumentTitle>
-    )
+    );
   }
 }
 
@@ -114,21 +114,21 @@ const mapStateToProps = state => ({
   collapsed: state.sidebar.collapsed,
   isMobile: state.common.device.isMobile,
   user: state.common.user.data
-})
+});
 
 const mapDispatchToProps = dispatch => ({
   device_update(data) {
-    dispatch(commonActionCreators.device_update(data))
+    dispatch(commonActionCreators.device_update(data));
   },
   sidebar_update(data) {
-    dispatch(sidebarActionCreators.sidebar_update(data))
+    dispatch(sidebarActionCreators.sidebar_update(data));
   },
   user_login_success(data) {
-    dispatch(commonActionCreators.user_login_success(data))
+    dispatch(commonActionCreators.user_login_success(data));
   }
-})
+});
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(App)
+)(App);

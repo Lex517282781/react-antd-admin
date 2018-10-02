@@ -24,11 +24,12 @@ class SideBar extends Component {
 
   componentWillReceiveProps() {}
 
-  handleRouter = ({ key }) => {
+  handleRouter = ({ key, item, keyPath }) => {
+    console.log(item, keyPath);
     const { history, location } = this.props;
     const currentKey = location.pathname.replace('/app/', '');
     if (currentKey === key) return;
-    history.push(key);
+    history.push('/app/' + key);
   };
 
   onOpenChange = openKeys => {
@@ -56,9 +57,9 @@ class SideBar extends Component {
     });
   };
 
-  renderMenuItem = ({ text, icon, key }) => {
+  renderMenuItem = ({ text, icon, key, pkey = '' }) => {
     return (
-      <Menu.Item onClick={this.handleRouter} key={key}>
+      <Menu.Item onClick={this.handleRouter} key={pkey + key}>
         {<Icon type={icon || ' '} />}
         <span>
           {zhMessages[`menu.${key}`]}
@@ -72,7 +73,7 @@ class SideBar extends Component {
   renderGroupMenu = ({ key, text, group }) => (
     <MenuItemGroup key={key} title={zhMessages[`menu.${key}`]}>
       {group.map(gitem => {
-        return this.renderMenuItem(gitem);
+        return this.renderMenuItem({ ...gitem, pkey: key + '/' });
       })}
     </MenuItemGroup>
   );

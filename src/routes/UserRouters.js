@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
-import { asyncComponent } from '@/utils';
-
-const Login = asyncComponent(() => import('@/pages/Login'));
-const Register = asyncComponent(() => import('@/pages/Register'));
-const RegisterResult = asyncComponent(() => import('@/pages/RegisterResult'));
+import Login from '@/pages/Login';
+import Register from '@/pages/Register';
+import RegisterResult from '@/pages/RegisterResult';
 
 class UserRouters extends Component {
   render() {

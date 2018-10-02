@@ -6,6 +6,7 @@ export default {
   'menu.aaab': '基础详情页',
   'menu.aab': '查询表格',
   'menu.aac': '分类查询表格',
+  'menu.aad': '标准列表表格',
   'menu.ab': '高级表单',
   'menu.ac': '二级0103',
   'menu.b': '分组类目演示',

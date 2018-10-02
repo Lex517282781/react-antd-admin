@@ -2,6 +2,10 @@ import React, { Component, Fragment } from 'react';
 import { Button, Menu, Dropdown, Icon, Row, Col } from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import DescriptionList from '@/components/DescriptionList';
+import Process from './subs/Process';
+import Userinfo from './subs/Userinfo';
+import Record from './subs/Record';
+import Operatelog from './subs/Operatelog';
 import styles from './style.less';
 
 const { Description } = DescriptionList;
@@ -83,7 +87,10 @@ class AAAA extends Component {
         extraContent={extra}
         tabList={tabList}
       >
-        114
+        <Process />
+        <Userinfo />
+        <Record />
+        <Operatelog />
       </PageHeaderWrapper>
     );
   }

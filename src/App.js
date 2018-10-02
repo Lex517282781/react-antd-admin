@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 import AppRouters from '@/routes/AppRouters';
 import { Layout } from 'antd';
 import { connect } from 'react-redux';
@@ -48,7 +49,6 @@ class App extends Component {
     if (user && user.status === 'ok') {
       return this.props.user_login_success(user);
     }
-    this.props.history.replace('/user/login');
   }
 
   componentDidMount() {
@@ -84,6 +84,12 @@ class App extends Component {
     const {
       location: { pathname }
     } = this.props;
+
+    const user = store.get('react_antd_admin_user');
+
+    if (!user || user.status !== 'ok') {
+      return <Redirect to="/user/login" />;
+    }
 
     const lastPathname = pathname.slice(pathname.lastIndexOf('/') + 1);
 
